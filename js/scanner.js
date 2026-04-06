@@ -104,9 +104,8 @@ async function initScanner(elementId, onScanSuccess, onScanError) {
         }, 500);
       });
 
-      Quagga.onError((err) => {
-        console.log('Quagga 错误:', err);
-        if (onScanError) onScanError(err);
+      Quagga.onProcessed((result) => {
+        // 每帧处理完毕的回调
       });
 
       Quagga.start();
