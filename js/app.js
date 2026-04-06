@@ -115,13 +115,7 @@ async function startScanning() {
   const statusEl = document.getElementById('scannerStatus');
   if (statusEl) statusEl.textContent = '正在加载扫描组件...';
 
-  const hasPermission = await checkCameraPermission();
-  if (!hasPermission) {
-    showToast('请允许使用摄像头', 'error');
-    if (statusEl) statusEl.textContent = '摄像头权限被拒绝';
-    return;
-  }
-
+  // 直接初始化，不预检查权限（Quagga会直接请求权限）
   try {
     if (statusEl) statusEl.textContent = '正在初始化扫描器...';
 
@@ -135,15 +129,16 @@ async function startScanning() {
         showItemForm(decodedText);
       },
       (error) => {
-        // 扫描进行中的错误，忽略
+        console.log('扫描进行中...');
       }
     );
 
     if (statusEl) statusEl.textContent = '扫描就绪，请对准条形码';
   } catch (e) {
     console.error('启动扫描失败:', e);
-    showToast('扫描启动失败: ' + (e.message || e), 'error');
-    if (statusEl) statusEl.textContent = '启动失败: ' + (e.message || '未知错误');
+    const errMsg = e.message || String(e);
+    showToast('扫描启动失败: ' + errMsg, 'error');
+    if (statusEl) statusEl.textContent = '启动失败: ' + errMsg;
   }
 }
 
