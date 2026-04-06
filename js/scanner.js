@@ -62,20 +62,39 @@ async function initScanner(elementId, onScanSuccess, onScanError) {
         type: "LiveStream",
         target: document.getElementById(elementId),
         constraints: {
-          facingMode: "environment"
+          facingMode: "environment",
+          width: { min: 640, max: 1920 },
+          height: { min: 480, max: 1080 }
+        },
+        area: {
+          top: "20%",
+          right: "10%",
+          left: "10%",
+          bottom: "20%"
         }
       },
       decoder: {
         readers: [
           "ean_reader",
-          "code_128_reader"
+          "ean_8_reader",
+          "code_128_reader",
+          "code_39_reader",
+          "upc_reader",
+          "upc_e_reader"
         ]
       },
-      locate: true
+      locate: true,
+      locator: {
+        halfSample: true
+      }
     }, (err) => {
       if (err) {
         console.error('Quagga init 错误:', err);
-        reject(err);
+        if (err.message && err.message.includes('video')) {
+          reject(new Error('无法访问摄像头，请确保没有其他应用占用'));
+        } else {
+          reject(err);
+        }
         return;
       }
 
