@@ -113,7 +113,7 @@ function initAddPage() {
 
 async function startScanning() {
   const statusEl = document.getElementById('scannerStatus');
-  if (statusEl) statusEl.textContent = '正在启动摄像头...';
+  if (statusEl) statusEl.textContent = '正在加载扫描组件...';
 
   const hasPermission = await checkCameraPermission();
   if (!hasPermission) {
@@ -135,15 +135,15 @@ async function startScanning() {
         showItemForm(decodedText);
       },
       (error) => {
-        console.log('扫描进行中...', error);
+        // 扫描进行中的错误，忽略
       }
     );
 
-    if (statusEl) statusEl.textContent = '扫描就绪';
+    if (statusEl) statusEl.textContent = '扫描就绪，请对准条形码';
   } catch (e) {
     console.error('启动扫描失败:', e);
-    showToast('无法启动摄像头，请检查权限', 'error');
-    if (statusEl) statusEl.textContent = '启动失败';
+    showToast('扫描启动失败: ' + (e.message || e), 'error');
+    if (statusEl) statusEl.textContent = '启动失败: ' + (e.message || '未知错误');
   }
 }
 

@@ -20,14 +20,26 @@ function loadQuagga() {
 
     console.log('正在加载 Quagga2...');
     const script = document.createElement('script');
-    script.src = 'https://unpkg.com/@ericblade/quagga2@1.8.4/dist/quagga.min.js';
+    // 使用 jsDelivr CDN（国内更稳定）
+    script.src = 'https://cdn.jsdelivr.net/npm/@ericblade/quagga2@1.8.4/dist/quagga.min.js';
     script.onload = () => {
       console.log('Quagga2 加载成功');
       resolve(window.Quagga);
     };
-    script.onerror = (e) => {
-      console.error('Quagga2 加载失败', e);
-      reject(new Error('加载扫描库失败'));
+    script.onerror = () => {
+      console.error('Quagga2 加载失败，尝试备用CDN...');
+      // 备用 CDN
+      const backup = document.createElement('script');
+      backup.src = 'https://unpkg.com/@ericblade/quagga2@1.8.4/dist/quagga.min.js';
+      backup.onload = () => {
+        console.log('Quagga2 备用CDN加载成功');
+        resolve(window.Quagga);
+      };
+      backup.onerror = (e) => {
+        console.error('Quagga2 所有CDN都加载失败', e);
+        reject(new Error('加载扫描库失败'));
+      };
+      document.head.appendChild(backup);
     };
     document.head.appendChild(script);
   });
