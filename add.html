@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#2563eb">
+  <title>添加物品 - 家庭物品清单</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="add">
+  <div class="container container-full">
+    <!-- 头部 -->
+    <header class="header">
+      <div class="header-actions">
+        <button class="back-btn" onclick="window.location.href='index.html'">← 返回</button>
+        <h1 style="flex:1;margin:0;">添加物品</h1>
+      </div>
+    </header>
+
+    <!-- 扫码区域 -->
+    <div class="scanner-container" id="scannerContainer">
+      <div class="scanner-viewport">
+        <div id="scannerViewport"></div>
+        <div class="scanner-status active" id="scannerStatus">准备中...</div>
+        <div class="scanner-overlay">
+          <div class="scanner-frame"></div>
+        </div>
+        <div class="scanner-hint">将条形码对准框内，保持手机稳定</div>
+      </div>
+      <div class="scanner-controls">
+        <button class="btn btn-secondary btn-block" id="manualInputBtn">
+          🔤 手动输入编号
+        </button>
+      </div>
+    </div>
+
+    <!-- 添加表单（扫码后显示） -->
+    <div class="container" id="addForm" style="display:none;">
+      <div style="background:var(--card-bg);padding:1.5rem;border-radius:var(--radius);margin-top:1rem;">
+        <div class="form-group">
+          <label>二维码编号</label>
+          <div id="qrCodeDisplay" style="font-size:1.25rem;color:var(--primary);padding:0.75rem;background:var(--bg);border-radius:var(--radius);word-break:break-all;"></div>
+        </div>
+
+        <form id="itemForm">
+          <div class="form-group">
+            <label for="nameInput">物品名称 *</label>
+            <input type="text" id="nameInput" placeholder="例如：房产证" required>
+          </div>
+
+          <div class="form-group">
+            <label for="locationInput">放置位置</label>
+            <input type="text" id="locationInput" placeholder="例如：卧室床头柜抽屉">
+          </div>
+
+          <div class="form-group">
+            <label for="categorySelect">分类</label>
+            <select id="categorySelect">
+              <option value="electronics">📱 电器</option>
+              <option value="documents">📄 文件</option>
+              <option value="tools">🔧 工具</option>
+              <option value="others" selected>📦 其他</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>物品图片</label>
+            <div class="image-upload" onclick="document.getElementById('imageInput').click()">
+              <div class="image-upload-icon">📷</div>
+              <div class="image-upload-text">点击上传图片</div>
+            </div>
+            <input type="file" id="imageInput" accept="image/*" style="display:none;">
+            <img id="imagePreview" class="image-preview" style="display:none;">
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block" id="submitBtn">
+            保存物品
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 手动输入模态框 -->
+  <div class="modal" id="manualInputModal" style="display:none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="modal-title">手动输入编号</span>
+        <button class="modal-close" onclick="hideManualInputModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="manualCodeInput">编号</label>
+          <input type="text" id="manualCodeInput" placeholder="请输入物品编号">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="hideManualInputModal()" style="flex:1;">取消</button>
+        <button class="btn btn-primary" onclick="submitManualCode()" style="flex:1;">确定</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/scanner.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

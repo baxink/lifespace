@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#2563eb">
+  <title>家庭物品清单</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="index">
+  <div class="container container-full">
+    <!-- 头部 -->
+    <header class="header">
+      <h1>📍 家庭物品清单</h1>
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="搜索物品名称或位置...">
+      </div>
+    </header>
+
+    <!-- 筛选标签 -->
+    <div class="container">
+      <div class="filter-tags" id="filterTags"></div>
+    </div>
+
+    <!-- 物品网格 -->
+    <main class="container" style="flex:1;">
+      <div class="item-grid" id="itemGrid"></div>
+
+      <!-- 空状态 -->
+      <div class="empty-state" id="emptyState" style="display:none;">
+        <div class="empty-state-icon">📦</div>
+        <div class="empty-state-text">还没有物品</div>
+        <div class="empty-state-hint">点击下方按钮添加第一个物品</div>
+      </div>
+    </main>
+
+    <!-- 固定添加按钮 -->
+    <button class="fab" onclick="window.location.href='add.html'" title="添加物品">+</button>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
